@@ -9,7 +9,7 @@
 
   <BaseLayout v-if="isDesktop"/>
     <div v-else class="mobile-message">
-      Switch to Desktop Mode
+      Switch to Desktop with Min. Screen Size > 1366px
     </div>
 
   <AboutModal :visible="showAbout" @close="closeAbout" />
@@ -35,20 +35,9 @@ export default defineComponent({
   },
   mounted() {
     window.addEventListener('resize', this.updateScreenSize);
-
-    const audio = new Audio(new URL('@/assets/Audio.mp3', import.meta.url).href);
-    audio.loop = true;
-    audio.load();
-
-    audio.play()
-      .then(() => {
-        this.isPlaying = true;
-      })
-      .catch((err) => {
-        console.warn('Autoplay blocked:', err);
-      });
-
-    this.audioPlayer = audio;
+    if (this.isDesktop) {
+      this.audioPlayerMount()
+    }
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateScreenSize);
@@ -59,6 +48,21 @@ export default defineComponent({
   methods: {
     updateScreenSize() {
       this.isDesktop = window.innerWidth >= 1366;
+    },
+    audioPlayerMount() {
+      const audio = new Audio(new URL('@/assets/Audio.mp3', import.meta.url).href);
+      audio.loop = true;
+      audio.load();
+
+      audio.play()
+        .then(() => {
+          this.isPlaying = true;
+        })
+        .catch((err) => {
+          console.warn('Autoplay blocked:', err);
+        });
+
+      this.audioPlayer = audio;
     },
     toggleAudio() {
       if (this.audioPlayer) {
