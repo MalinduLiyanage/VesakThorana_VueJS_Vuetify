@@ -8,10 +8,23 @@
   </div>
 
   <BaseLayout v-if="isDesktop"/>
-    <div v-else class="mobile-message">
-      Switch to Desktop with Min. Screen Size > 1366px
-    </div>
+  <v-card v-else
+    class="mx-auto"
+    prepend-icon="mdi-alert"
+    width="400"
+  >
+    <template v-slot:title>
+      <span class="font-weight-black">Display Size Warning!</span>
+    </template>
 
+    <v-card-text class="bg-surface-light pt-4">
+      If you see this message, it means you are trying to watching our Vesak Thorana using a Mobile or Tablet Computer. To provide the maximum user experience, we limited the Vesak Thorana only for Desktop or laptop computers.
+    </v-card-text>
+
+    <v-card-text class="text-red font-weight-bold pt-4">
+      Please use a Laptop or Desktop computer to experience the Vesak Thorana!
+    </v-card-text>
+  </v-card>
   <AboutModal :visible="showAbout" @close="closeAbout" />
 </template>
 
@@ -98,7 +111,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
